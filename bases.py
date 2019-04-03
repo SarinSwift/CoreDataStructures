@@ -59,12 +59,51 @@ def encode(number, base):
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
-    # TODO: Encode number in binary (base 2)
-    # ...
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
-    # TODO: Encode number in any base (2 up to 36)
-    # ...
+
+    answerString = ""
+
+    # base 10
+    if base == 10:
+        return int(number)
+
+    # base 2
+    if base == 2:
+        trickArray = [number]
+
+        while trickArray[0] != 1:
+            divideNumber = trickArray[0]//2
+            trickArray.insert(0, divideNumber)
+        for i in range(len(trickArray)):
+            if trickArray[i] % 2 == 0:
+                # 0 for even numbers
+                trickArray[i] = 0
+            else:
+                # 1 for odd numbers
+                trickArray[i] = 1
+        return ''.join(str(x) for x in trickArray)
+
+    # base 16
+    if base == 16:
+        hexdigits = string.printable  # all the bases
+        arrayDigits = []
+        while number > 0:
+            remainder = number % 16
+            number = number // 16
+            arrayDigits.append(hexdigits[remainder])
+        arrayDigits = arrayDigits[::-1]
+        return ''.join(str(x) for x in arrayDigits)
+
+
+
+    # base 2 up to 36
+    printabledigits = string.printable
+    arrayDigits = []
+    while number > 0:
+        remainder = number % base
+        number //= base
+        arrayDigits.append(printabledigits[remainder])
+    arrayDigits = arrayDigits[::-1]
+    return ''.join(str(x) for x in arrayDigits)
 
 
 def convert(digits, base1, base2):
@@ -123,3 +162,15 @@ if __name__ == '__main__':
     print(decode('10', 25))
     print(decode('1010', 32))
     print(decode('101101', 4))
+
+    print("\ntestinggggg encode base 10")
+    print(encode(789, 10))
+    print(encode(99, 10))
+
+    print("\ntestinggggg encode base 16")
+    print(encode(10, 16))
+    print(encode(3735928559, 16))
+
+    print("\ntestinggggg encode base 2-36")
+    print(encode(1234, 8))
+    print(encode(1234, 32))
