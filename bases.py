@@ -10,6 +10,7 @@ import string
 # string.printable is digits + ascii_letters + punctuation + whitespace
 
 
+
 def decode(digits, base):
     """Decode given digits in given base to number in base 10.
     digits: str -- string representation of number (in given base)
@@ -17,12 +18,36 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
-    # TODO: Decode digits from any base (2 up to 36)
-    # ...
+
+    answerInt = 0
+    # base 10
+    if base == 10:
+        return int(digits)
+
+    # base 16
+    if base == 16:
+        hexlookup = {"0":0, "1":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "a":10, "b":11, "c":12,
+        "d":13, "e":14, "f":15}
+        arrayDigits = list(digits)
+        endPointer = len(arrayDigits) - 1
+        toThePower = 0
+        while endPointer >= 0:
+            hex_value = hexlookup[arrayDigits[endPointer]]
+            answerInt += hex_value * (16**toThePower)
+            endPointer -= 1
+            toThePower += 1
+        return answerInt
+
+    # base 2 up to 36
+    arrayDigits = list(digits)
+    endPointer = len(arrayDigits) - 1
+    toThePower = 0
+    while endPointer >= 0:
+        currValue = int(arrayDigits[endPointer])
+        answerInt += currValue * (base**toThePower)
+        endPointer -= 1
+        toThePower += 1
+    return answerInt
 
 
 def encode(number, base):
@@ -79,3 +104,22 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    print("\n\ntestinggggg decode base 2")
+    print(decode('1', 2)) # -> 1
+    print(decode('1010', 2)) # -> 10
+    print(decode('1111', 2)) # -> 15
+
+    print("\ntestinggggg decode base 10")
+    print(decode('1021', 10))
+
+    print("\ntestinggggg decode base 16")
+    print(decode('7de', 16))
+    print(decode('c0ffee', 16))
+    print(decode('ff', 16))
+
+    print("\ntestinggggg decode base 2-36")
+    print(decode('10', 8))
+    print(decode('10', 25))
+    print(decode('1010', 32))
+    print(decode('101101', 4))
