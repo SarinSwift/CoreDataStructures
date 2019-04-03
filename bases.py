@@ -93,8 +93,6 @@ def encode(number, base):
         arrayDigits = arrayDigits[::-1]
         return ''.join(str(x) for x in arrayDigits)
 
-
-
     # base 2 up to 36
     printabledigits = string.printable
     arrayDigits = []
