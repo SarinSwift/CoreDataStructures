@@ -113,14 +113,11 @@ def convert(digits, base1, base2):
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base1 <= 36, 'base1 is out of range: {}'.format(base1)
     assert 2 <= base2 <= 36, 'base2 is out of range: {}'.format(base2)
-    # TODO: Convert digits from base 2 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 2 to base 10 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 10 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
+
+    # Decode any base to base 10 first,
+    # And then we can encode to the following wanted base
+    decodedNumber = decode(digits, base1)
+    return encode(decodedNumber, base2)
 
 
 def main():
@@ -172,3 +169,8 @@ if __name__ == '__main__':
     print("\ntestinggggg encode base 2-36")
     print(encode(1234, 8))
     print(encode(1234, 32))
+
+    print("\ntestinggggg convert to base 10")
+    print(convert('cab', 16, 10)) # -> 3243
+    print(convert('48813', 10, 16))
+    print(convert('3735928559', 10, 16))
