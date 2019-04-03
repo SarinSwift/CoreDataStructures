@@ -19,31 +19,23 @@ def decode(digits, base):
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
 
-    answerInt = 0
     # base 10
     if base == 10:
         return int(digits)
 
-    # base 16
-    if base == 16:
-        hexlookup = {"0":0, "1":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "a":10, "b":11, "c":12,
-        "d":13, "e":14, "f":15}
-        arrayDigits = list(digits)
-        endPointer = len(arrayDigits) - 1
-        toThePower = 0
-        while endPointer >= 0:
-            hex_value = hexlookup[arrayDigits[endPointer]]
-            answerInt += hex_value * (16**toThePower)
-            endPointer -= 1
-            toThePower += 1
-        return answerInt
+    answerInt = 0
+    hexlookup = {"0":0, "1":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "a":10, "b":11, "c":12,
+    "d":13, "e":14, "f":15}
 
     # base 2 up to 36
     arrayDigits = list(digits)
     endPointer = len(arrayDigits) - 1
     toThePower = 0
     while endPointer >= 0:
-        currValue = int(arrayDigits[endPointer])
+        if base == 16:
+            currValue = hexlookup[arrayDigits[endPointer]]
+        else:
+            currValue = int(arrayDigits[endPointer])
         answerInt += currValue * (base**toThePower)
         endPointer -= 1
         toThePower += 1
@@ -60,38 +52,13 @@ def encode(number, base):
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
 
-    answerString = ""
-
+    if number == 0:
+        return '0'
     # base 10
     if base == 10:
-        return int(number)
+        return str(number)
 
-    # base 2
-    if base == 2:
-        trickArray = [number]
-
-        while trickArray[0] != 1:
-            divideNumber = trickArray[0]//2
-            trickArray.insert(0, divideNumber)
-        for i in range(len(trickArray)):
-            if trickArray[i] % 2 == 0:
-                # 0 for even numbers
-                trickArray[i] = 0
-            else:
-                # 1 for odd numbers
-                trickArray[i] = 1
-        return ''.join(str(x) for x in trickArray)
-
-    # base 16
-    if base == 16:
-        hexdigits = string.printable  # all the bases
-        arrayDigits = []
-        while number > 0:
-            remainder = number % 16
-            number = number // 16
-            arrayDigits.append(hexdigits[remainder])
-        arrayDigits = arrayDigits[::-1]
-        return ''.join(str(x) for x in arrayDigits)
+    answerString = ""
 
     # base 2 up to 36
     printabledigits = string.printable
@@ -99,8 +66,7 @@ def encode(number, base):
     while number > 0:
         remainder = number % base
         number //= base
-        arrayDigits.append(printabledigits[remainder])
-    arrayDigits = arrayDigits[::-1]
+        arrayDigits.insert(0, printabledigits[remainder])
     return ''.join(str(x) for x in arrayDigits)
 
 
