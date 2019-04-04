@@ -27,19 +27,27 @@ def binary_search(array, item):
     """return the index of item in sorted array or None if item is not found"""
     # implement binary_search_iterative and binary_search_recursive below, then
     # change this to call your implementation to verify it passes all tests
-    # return binary_search_iterative(array, item)
-    return binary_search_recursive(array, item)
+    return binary_search_iterative(array, item)
+    # return binary_search_recursive(array, item)
 
 
 def binary_search_iterative(array, item):
-    # TODO: implement binary search iteratively here
-    pass
     # once implemented, change binary_search to call binary_search_iterative
     # to verify that your iterative implementation passes all tests
+    left = 0
+    right = len(array) - 1
+    while left <= right:
+        middleIndex = (left + right) // 2
+        middleVal = array[middleIndex]
+        if middleVal == item:
+            return middleIndex
+        if middleVal < item:            # need to search in the right side of array
+            left = middleIndex + 1
+        elif middleVal > item:          # need to search in the left side of array
+            right = middleIndex - 1
 
 
 def binary_search_recursive(array, item, left=None, right=None):
-    # TODO: implement binary search recursively here
     # once implemented, change binary_search to call binary_search_recursive
     # to verify that your recursive implementation passes all tests
     if right == None:
@@ -49,16 +57,13 @@ def binary_search_recursive(array, item, left=None, right=None):
     middleVal = array[middleIndex]
     if middleVal == item:
         return middleIndex
-    if middleVal < item:
+    if middleVal < item:                # need to search in the right side of array
         left = middleIndex + 1
-    elif middleVal > item:
+    elif middleVal > item:              # need to search in the left side of array 
         right = middleIndex - 1
     if left == right:
         if item == array[left]:
             return left
         return None
-        
-    return binary_search_recursive(array, item, left, right)
 
-# my_array = [0,1,2,3,4,5,6,7,8,9]
-# print(binary_search_recursive(my_array, 7))
+    return binary_search_recursive(array, item, left, right)
