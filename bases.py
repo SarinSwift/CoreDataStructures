@@ -58,16 +58,15 @@ def encode(number, base):
     if base == 10:
         return str(number)
 
-    answerString = ""
-
     # base 2 up to 36
     printabledigits = string.printable
-    arrayDigits = []
+    stringDigits = ""
     while number > 0:
         remainder = number % base
         number //= base
-        arrayDigits.insert(0, printabledigits[remainder])
-    return ''.join(str(x) for x in arrayDigits)
+        # this is prepending to the string: avoids reversing
+        stringDigits = printabledigits[remainder] + stringDigits
+    return stringDigits
 
 
 def convert(digits, base1, base2):
@@ -104,39 +103,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-    print("\n\ntestinggggg decode base 2")
-    print(decode('1', 2)) # -> 1
-    print(decode('1010', 2)) # -> 10
-    print(decode('1111', 2)) # -> 15
-
-    print("\ntestinggggg decode base 10")
-    print(decode('1021', 10))
-
-    print("\ntestinggggg decode base 16")
-    print(decode('7de', 16))
-    print(decode('c0ffee', 16))
-    print(decode('ff', 16))
-
-    print("\ntestinggggg decode base 2-36")
-    print(decode('10', 8))
-    print(decode('10', 25))
-    print(decode('1010', 32))
-    print(decode('101101', 4))
-
-    print("\ntestinggggg encode base 10")
-    print(encode(789, 10))
-    print(encode(99, 10))
-
-    print("\ntestinggggg encode base 16")
-    print(encode(10, 16))
-    print(encode(3735928559, 16))
-
-    print("\ntestinggggg encode base 2-36")
-    print(encode(1234, 8))
-    print(encode(1234, 32))
-
-    print("\ntestinggggg convert to base 10")
-    print(convert('cab', 16, 10)) # -> 3243
-    print(convert('48813', 10, 16))
-    print(convert('3735928559', 10, 16))
