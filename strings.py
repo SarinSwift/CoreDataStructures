@@ -4,32 +4,41 @@ def contains(text, pattern):
     """Return a boolean indicating whether pattern occurs in text."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-    if len(pattern) > len(text):
+
+    # Pseudocode
+    # Guard that str2 has to be shorter than str1 else return false
+    # Keep pointers for str1 an str2
+    # loop through str1[str1Pointer] until we find str2[str2Pointer]
+    # if we find them to be equal:
+    #   increase str1Pointer by 1
+    #   increase str2Pointer by 1
+    #   do a check to see if str2Pointer was the last index of str2. Because that means we have found a pattern!
+    # if we don't find it yet:
+    #   set the patternPointer to be 0
+    #   increase str1Pointer by 1 ONLY IF str1[str1Pointer] != str2[0]
+    #   so we don't check on the next letter if this current letter may be the where the pattern begins!!!!
+
+    if len(pattern) > len(text):        # edge case where it will text will never contain the pattern if it's larger
         return False
     if pattern == "":
         return True
-    str1Pointer = 0
-    str2Pointer = 0
-    while str1Pointer < len(text) and str2Pointer < len(pattern):
-        if text[str1Pointer] == pattern[str2Pointer]:
-            if str2Pointer == len(pattern) - 1:
+
+    textPointer = 0
+    patternPointer = 0
+    while textPointer < len(text):
+        if text[textPointer] == pattern[patternPointer]:   # matches a pattern letter! so we can move to the next pattern letter
+            textPointer += 1
+            patternPointer += 1
+            if patternPointer == len(pattern):             # All the letters in the pattern have appeard in the text in correct order
                 return True
-            str1Pointer += 1
-            str2Pointer += 1
-        elif text[str1Pointer] != pattern[str2Pointer]:
-            str1Pointer += 1
+        else:
+            patternPointer = 0                             # We want to set to check back at the first letter in the pattern
+            # Catches the edge case where the current letter in text might equal to the the pattern's letter.
+            if text[textPointer] != pattern[patternPointer]:
+                textPointer += 1
+            # In this case, we would not want to increment the text's pointer and we can continue our while loop
+
     return False
-
-
-    # Psuedocode
-    # Keep pointers for str1 an str2
-    # Guard that str2 has to be shorter than str1 else return false
-    # loop through str1[str1Pointer] until we find str2[str2Pointer]
-    # if we find it:
-    #   increase str1Pointer by 1
-    #   increase str2Pointer by 1
-    # if we don't find it yet:
-    #   increase str1Pointer by 1
 
 
 def find_index(text, pattern):
@@ -37,6 +46,11 @@ def find_index(text, pattern):
     or None if not found."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
+
+    # Pseudocode
+    # Call the contains method so we can check if there is such pattern or not
+    # if it returns true, that means there is the pattern and we can loop through to find the first letter and return it's index
+    # if returns false, we can just return None because we know there's nothing in it.
 
     if pattern == "":
         return 0
@@ -50,10 +64,7 @@ def find_index(text, pattern):
     else:
         return None
 
-    # Psuedocode
-    # Call the contains method so we can check if there is such pattern or not
-    # if it returns true, that means there is the pattern and we can loop through to find the first letter and return it's index
-    # if returns false, we can just return None because we know there's nothing in it.
+
 
 
 def find_all_indexes(text, pattern):
@@ -61,7 +72,12 @@ def find_all_indexes(text, pattern):
     or an empty list if not found."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-    # TODO: Implement find_all_indexes here (iteratively and/or recursively)
+
+    # Pseudocode
+    # create variable to store empty array where we will be appending indexes and return in the end
+    # code similar to contains method
+
+    
 
 
 def test_string_algorithms(text, pattern):
