@@ -49,18 +49,33 @@ def find_index(text, pattern):
 
     # Pseudocode
     # Call the contains method so we can check if there is such pattern or not
-    # if it returns true, that means there is the pattern and we can loop through to find the first letter and return it's index
+    # variables for: text pointer, pattern pointer, and one for checking where the pattern ends in the text
+    # if it returns true, that means there is the pattern and we can loop through to find the pattern
+    #   in order to return the starting point of pattern in the string: we have to calculate answerIndex minus the len of pattern - 1
     # if returns false, we can just return None because we know there's nothing in it.
 
     if pattern == "":
         return 0
     doesContainPattern = contains(text, pattern)
     if doesContainPattern:
-        pointer = 0
-        while pointer < len(text):
-            if text[pointer] == pattern[0]:
-                return pointer
-            pointer += 1
+        textPointer = 0
+        patternPointer = 0
+        answerIndex = 0
+        while textPointer < len(text):
+            if text[textPointer] != pattern[patternPointer]:
+                patternPointer = 0
+                if text[textPointer] != pattern[patternPointer]:
+                    textPointer += 1
+
+            else:       # letters are equal so may have a chance it's the pattern
+                answerIndex = textPointer       # set index to where we found it!
+                if patternPointer == len(pattern) - 1:
+                    answerIndex -= len(pattern) - 1
+                    return answerIndex
+
+                textPointer += 1
+                patternPointer += 1
+
     else:
         return None
 
@@ -73,11 +88,49 @@ def find_all_indexes(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
 
-    # Pseudocode
-    # create variable to store empty array where we will be appending indexes and return in the end
-    # code similar to contains method
+    if pattern == '':                                   # empty pattern case
+        return [i for i in range(len(text))]
+    if len(pattern) == 1:                               # single pattern len case
+        answerArr = []
+        for i in range(len(text)):
+            if text[i] == pattern:
+                answerArr.append(i)
+        return answerArr
 
-    
+    doesContainPattern = contains(text, pattern)
+    if doesContainPattern:
+        answerArr = []
+        textPointer = 0
+        patternPointer = 0
+        # this will keep the index of where the first pattern ended in the text. So if we want to append it to the answerArr,
+        #   we'll have to minus it with the (length of the pattern - 1)
+        answerIndex = 0
+        while textPointer < len(text):
+            if text[textPointer] != pattern[patternPointer]:
+                patternPointer = 0              # start looping from beginning of pattern
+                if text[textPointer] != pattern[patternPointer]:
+                    textPointer += 1            # only increment textPointer if it doesn't match pattern at 0
+
+            else:                               # letters match so may have a chance it's the pattern
+                answerIndex = textPointer       # keep check of the pointer of pattern in text
+                if patternPointer == len(pattern) - 1:
+                    answerIndex -= len(pattern) - 1
+                    answerArr.append(answerIndex)       # found one pattern in the text!
+                    patternPointer = 0                  # set back to 0 to check if there are more patterns in text
+                    answerIndex = 0
+                    # increment textPointer only if the current one doesn't equal to pattern at index 0
+                    if text[textPointer] != pattern[patternPointer]:
+                        textPointer += 1
+                    continue    # need to be 'continue' statement because we want to keep checking the rest of the text
+
+                textPointer += 1                # check on the next letters in both the text and pattern
+                patternPointer += 1
+        return answerArr                        
+
+    else:
+        return []
+
+
 
 
 def test_string_algorithms(text, pattern):
@@ -110,4 +163,5 @@ def main():
 
 
 if __name__ == '__main__':
+    print(find_all_indexes('aaa', 'aa'))
     main()
