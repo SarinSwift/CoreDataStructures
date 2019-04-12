@@ -32,3 +32,9 @@ Adding and removing nodes is as simple as rearranging the pointers
  - Singly: Goes in one direction. Has one tracker that can traverse the list  
  - Doubly: 2 references contained within each node  
  - Circular: Does not end with nil. Has a node that acts as the tail(not head)  
+ 
+ **Linked Lists are good to use when:**  
+   - You want to add or remove things quickly  
+   - Not sure of size of the list  
+   - Not worried about finding elements later on  
+   - Sure that you wouldn’t need to traverse through the entirety of the list  
