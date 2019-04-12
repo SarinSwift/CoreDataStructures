@@ -16,9 +16,9 @@ class LinkedList(object):
 
     def __init__(self, iterable=None):
         """Initialize this linked list and append the given items, if any."""
-        self.head = None  # First node
-        self.tail = None  # Last node
-        self.size = 0  # Number of nodes
+        self.head = None
+        self.tail = None
+        self.size = 0
         # Append the given items
         if iterable is not None:
             for item in iterable:
@@ -37,18 +37,12 @@ class LinkedList(object):
         """Return a list of all items in this linked list.
         Best and worst case running time: Theta(n) for n items in the list
         because we always need to loop through all n nodes."""
-        # Create an empty list of results
-        result = []  # Constant time to create a new list
-        # Start at the head node
-        node = self.head  # Constant time to assign a variable reference
-        # Loop until the node is None, which is one node too far past the tail
-        while node is not None:  # Always n iterations because no early exit
-            # Append this node's data to the results list
-            result.append(node.data)  # Constant time to append to a list
-            # Skip to the next node
-            node = node.next  # Constant time to reassign a variable
-        # Now result contains the data from all nodes
-        return result  # Constant time to return a list
+        result = []
+        node = self.head
+        while node is not None:
+            result.append(node.data)
+            node = node.next
+        return result
 
     def is_empty(self):
         """Return True if this linked list is empty, or False."""
@@ -76,12 +70,20 @@ class LinkedList(object):
     def get_at_index(self, index):
         """Return the item at the given index in this linked list, or
         raise ValueError if the given index is out of range of the list size.
-        Best case running time: ??? under what conditions? [TODO]
-        Worst case running time: ??? under what conditions? [TODO]"""
+        Best case running time: O(1) where we're getting at index 0
+        Worst case running time: O(n) where n is the index we want to get"""
         # Check if the given index is out of range and if so raise an error
         if not (0 <= index < self.size):
             raise ValueError('List index out of range: {}'.format(index))
-        # TODO: Find the node at the given index and return its data
+
+        curr = self.head
+        iterations = 0          # increment by 1 as we traverse through the nodes
+        while curr is not None:
+            if iterations == index:     # we're at the index!
+                return curr.data        # return the node's data
+            else:
+                curr = curr.next        # not at the index yet, so look on to next node
+                iterations += 1
 
     def insert_at_index(self, index, item):
         """Insert the given item at the given index in this linked list, or
