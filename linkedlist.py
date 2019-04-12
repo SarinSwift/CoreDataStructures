@@ -88,16 +88,40 @@ class LinkedList(object):
     def insert_at_index(self, index, item):
         """Insert the given item at the given index in this linked list, or
         raise ValueError if the given index is out of range of the list size.
-        Best case running time: ??? under what conditions? [TODO]
-        Worst case running time: ??? under what conditions? [TODO]"""
+        Best case running time: O(1) if we want to insert at index 0
+        Worst case running time: O(n) where n is the index number. Can be the total amount of items in list"""
         # Check if the given index is out of range and if so raise an error
         if not (0 <= index <= self.size):
             raise ValueError('List index out of range: {}'.format(index))
-        # TODO: Find the node before the given index and insert item after it
+
+        if index == 0:
+            self.prepend(item)       # inserting as the first item
+        elif index == self.size:
+            self.append(item)        # inserting at the end of list
+        else:
+            new_node = Node(item)
+            # keep curr, prev nodes, and iterations count
+            # change pointer of prev to point to the new node
+            # new node's next pointer goes to curr node
+            iterations = 0
+            prev = None
+            curr = self.head
+            while curr is not None:
+                if iterations == index:
+                    prev = curr             # prev is the node that is before new_node once we insert it
+                    curr = curr.next        # curr is the node after new_node once we insert it
+                    prev.next = new_node
+                    new_node.next = curr
+                else:                       # loop to the next iteration and next nodes
+                    prev = curr
+                    curr = curr.next
+                    iterations += 1
+            self.size += 1
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
-        Best and worst case running time: ??? under what conditions? [TODO]"""
+        Best and worst case run time: O(1) because we have access to the tail so we did not have to traverse through the
+            whole list to get to the end """
         # Create a new node to hold the given item
         new_node = Node(item)
         # Check if this linked list is empty
@@ -113,7 +137,7 @@ class LinkedList(object):
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
-        Best and worst case running time: ??? under what conditions? [TODO]"""
+        Best and worst case running time: O(1) because we're just changing the pointer of first item"""
         # Create a new node to hold the given item
         new_node = Node(item)
         # Check if this linked list is empty
@@ -148,16 +172,24 @@ class LinkedList(object):
     def replace(self, old_item, new_item):
         """Replace the given old_item in this linked list with given new_item
         using the same node, or raise ValueError if old_item is not found.
-        Best case running time: ??? under what conditions? [TODO]
-        Worst case running time: ??? under what conditions? [TODO]"""
-        # TODO: Find the node containing the given old_item and replace its
-        # data with new_item, without creating a new node object
-        pass
+        Best case running time: O(1) where we're replacing a node at self.head
+        Worst case running time: O(n) where n is the index where the old item is """
+        if old_item in self.items():
+            curr = self.head                # keep check of current node
+            while curr is not None:
+                if curr.data == old_item:   # found the old item!
+                    curr.data = new_item    # set the old data to our new data
+                else:
+                    curr = curr.next        # traverse on the next node
+
+        else:
+            # if there's no old_item, then raise an error
+            raise ValueError('old_item not found: {}'.format(old_item))
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
-        Best case running time: ??? under what conditions? [TODO]
-        Worst case running time: ??? under what conditions? [TODO]"""
+        Best case running time: O(1) where the item is the first item in list
+        Worst case running time: O(n) where n is the amount of nodes in list."""
         # Start at the head node
         node = self.head
         # Keep track of the node before the one containing the given item
@@ -222,6 +254,11 @@ def test_linked_list():
     for index in range(ll.size):
         item = ll.get_at_index(index)
         print('get_at_index({}): {!r}'.format(index, item))
+
+    print(ll)
+    print('Inserting at index:')
+    ll.insert_at_index(0, '22')
+    print(ll)
 
     print('Deleting items:')
     ll.delete('B')
