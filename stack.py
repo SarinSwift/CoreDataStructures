@@ -29,7 +29,7 @@ class LinkedStack(object):
 
     def push(self, item):
         """Insert the given item on the top of this stack.
-        Running time: O(???) – Why? [TODO]"""
+        Running time: O(1) because we're calling the append method in the ll class"""
         self.list.append(item)
 
     def peek(self):
@@ -42,9 +42,9 @@ class LinkedStack(object):
     def pop(self):
         """Remove and return the item on the top of this stack,
         or raise ValueError if this stack is empty.
-        Running time: O(???) – Why? [TODO]"""
+        Running time: O(1) to get the peek item and remove it from the ll"""
         if self.list:
-            item = self.peek()          # keep element of last item so we can return this afer deleting the item 
+            item = self.peek()          # keep element of last item so we can return this afer deleting the item
             self.list.delete(item)
             return item
         else:
@@ -103,5 +103,5 @@ class ArrayStack(object):
 
 # Implement LinkedStack and ArrayStack above, then change the assignment below
 # to use each of your Stack implementations to verify they each pass all tests
-Stack = LinkedStack
-# Stack = ArrayStack
+# Stack = LinkedStack
+Stack = ArrayStack

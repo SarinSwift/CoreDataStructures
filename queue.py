@@ -29,7 +29,7 @@ class LinkedQueue(object):
 
     def enqueue(self, item):
         """Insert the given item at the back of this queue.
-        Running time: O(???) – Why? [TODO]"""
+        Running time: O(1) calling the ll append method by just changing the tail node"""
         self.list.append(item)      # adding to end of list
 
     def front(self):
@@ -43,7 +43,7 @@ class LinkedQueue(object):
     def dequeue(self):
         """Remove and return the item at the front of this queue,
         or raise ValueError if this queue is empty.
-        Running time: O(???) – Why? [TODO]"""
+        Running time: O(1) from getting the front item and removing at the head of the ll"""
         if self.length() != 0:
             frontItem = self.front()
             self.list.delete(frontItem)     # removing the head of list
@@ -81,7 +81,7 @@ class ArrayQueue(object):
 
     def enqueue(self, item):
         """Insert the given item at the back of this queue.
-        Running time: O(???) – Why? [TODO]"""
+        Running time: O(1) using append method on list"""
         self.list.append(item)
 
     def front(self):
@@ -94,7 +94,7 @@ class ArrayQueue(object):
     def dequeue(self):
         """Remove and return the item at the front of this queue,
         or raise ValueError if this queue is empty.
-        Running time: O(???) – Why? [TODO]"""
+        Running time: O(1) removing the first item in ll"""
         if not self.is_empty():
             return self.list.pop(0)
         raise ValueError('No items in list to dequeue: []')
