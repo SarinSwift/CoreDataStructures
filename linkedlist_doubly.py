@@ -11,6 +11,17 @@ class Node(object):
         """Return a string representation of this node."""
         return 'Node({!r})'.format(self.data)
 
+class LinkedListIter(object):
+    def __init__(self, head):
+        self.curr = head
+
+    def __next__(self):
+        if self.curr == None:
+            raise StopIteration
+        self.curr = curr.next
+        return self.curr
+
+
 
 class LinkedList(object):
 
@@ -32,6 +43,10 @@ class LinkedList(object):
     def __repr__(self):
         """Return a string representation of this linked list."""
         return 'LinkedList({!r})'.format(self.items())
+
+    def __iter__(self):
+        """Iterating through the entire list with an iterator class starting from the head"""
+        return LinkedListIter(self.head)
 
     def items(self):
         """Return a list of all items in this linked list.
