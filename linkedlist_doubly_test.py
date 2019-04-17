@@ -111,6 +111,23 @@ class LinkedListTest(unittest.TestCase):
         assert ll.find(lambda item: item > 'B') == 'C'
         assert ll.find(lambda item: item == 'X') is None
 
+    def test_replace(self):
+        ll = LinkedList(['A', 'B', 'C'])
+        ll.replace('A', 'D')
+        assert ll.head.data == 'D'  # new head
+        assert ll.tail.data == 'C'  # unchanged
+        assert ll.size == 3
+        ll.replace('B', 'E')
+        assert ll.head.data == 'D'  # unchanged
+        assert ll.tail.data == 'C'  # unchanged
+        assert ll.size == 3
+        ll.replace('C', 'F')
+        assert ll.head.data == 'D'  # unchanged
+        assert ll.tail.data == 'F'  # new tail
+        assert ll.size == 3
+        with self.assertRaises(ValueError):
+            ll.replace('X', 'Y')  # item not in list
+
     def test_delete(self):
         ll = LinkedList(['A', 'B', 'C'])
         ll.delete('A')
@@ -127,6 +144,43 @@ class LinkedListTest(unittest.TestCase):
         assert ll.size == 0
         with self.assertRaises(ValueError):
             ll.delete('X')  # item not in list
+
+    def test_get_at_index(self):
+        ll = LinkedList(['A', 'B', 'C'])
+        assert ll.get_at_index(0) == 'A'  # head item
+        assert ll.get_at_index(1) == 'B'  # middle item
+        assert ll.get_at_index(2) == 'C'  # tail item
+        with self.assertRaises(ValueError):
+            ll.get_at_index(3)  # index too high
+        with self.assertRaises(ValueError):
+            ll.get_at_index(-1)  # index too low
+
+    def test_insert_at_index(self):
+        ll = LinkedList()
+        ll.insert_at_index(0, 'B')  # append('B')
+        assert ll.head.data == 'B'  # new head (at index 0)
+        assert ll.tail.data == 'B'  # new tail (at index 0)
+        assert ll.size == 1
+        ll.insert_at_index(0, 'A')  # prepend('A')
+        assert ll.head.data == 'A'  # new head (at index 0)
+        assert ll.tail.data == 'B'  # unchanged (now at index 1)
+        assert ll.size == 2
+        ll.insert_at_index(2, 'D')  # append('D')
+        assert ll.head.data == 'A'  # unchanged (at index 0)
+        assert ll.tail.data == 'D'  # new tail (now at index 2)
+        assert ll.size == 3
+        ll.insert_at_index(2, 'C')  # insert 'C' between 'B' and 'D'
+        assert ll.head.data == 'A'  # unchanged (at index 0)
+        assert ll.tail.data == 'D'  # unchanged (now at index 3)
+        assert ll.tail.previous.data == 'C'
+        assert ll.head.next.data == 'B'
+        assert ll.head.next.next.next.data == 'D'
+        assert ll.tail.previous.previous.next.data == 'C'
+        assert ll.size == 4
+        with self.assertRaises(ValueError):
+            ll.insert_at_index(5, 'X')  # index too high
+        with self.assertRaises(ValueError):
+            ll.insert_at_index(-1, 'Y')  # index too low
 
 
 if __name__ == '__main__':
