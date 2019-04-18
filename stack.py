@@ -29,15 +29,16 @@ class LinkedStack(object):
 
     def push(self, item):
         """Insert the given item on the top of this stack.
-        Running time: O(1) because we're calling the append method in the ll class"""
-        self.list.append(item)
+        Running time: O(1) because we're calling the prepend method in the ll class"""
+        self.list.prepend(item)
 
     def peek(self):
         """Return the item on the top of this stack without removing it,
-        or None if this stack is empty."""
+        or None if this stack is empty.
+        Runtime: O(1) returning the head's data"""
         if self.is_empty():
             return None
-        return self.list.tail.data
+        return self.list.head.data
 
     def pop(self):
         """Remove and return the item on the top of this stack,
@@ -96,7 +97,7 @@ class ArrayStack(object):
         or raise ValueError if this stack is empty.
         Running time: O(1) pop method is constant runtime"""
         if self.list:           # list is not empty
-            return self.list.pop(len(self.list) - 1)
+            return self.list.pop()
         raise ValueError('No items in list to pop: []')
 
 

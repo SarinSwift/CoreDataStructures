@@ -1,7 +1,8 @@
 #!python
 
 def contains(text, pattern):
-    """Return a boolean indicating whether pattern occurs in text."""
+    """Return a boolean indicating whether pattern occurs in text.
+    O(n) runtime"""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
 
@@ -43,7 +44,8 @@ def contains(text, pattern):
 
 def find_index(text, pattern):
     """Return the starting index of the first occurrence of pattern in text,
-    or None if not found."""
+    or None if not found.
+    O(n) where n is the index where the last pattern is in the string"""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
 
@@ -84,7 +86,8 @@ def find_index(text, pattern):
 
 def find_all_indexes(text, pattern):
     """Return a list of starting indexes of all occurrences of pattern in text,
-    or an empty list if not found."""
+    or an empty list if not found.
+    O(n) where n is the number of letters in the text"""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
 
@@ -97,39 +100,47 @@ def find_all_indexes(text, pattern):
                 answerArr.append(i)
         return answerArr
 
-    doesContainPattern = contains(text, pattern)
-    if doesContainPattern:
-        answerArr = []
-        textPointer = 0
-        patternPointer = 0
-        # this will keep the index of where the first pattern ended in the text. So if we want to append it to the answerArr,
-        #   we'll have to minus it with the (length of the pattern - 1)
-        answerIndex = 0
-        while textPointer < len(text):
+    # doesContainPattern = contains(text, pattern)
+    # if doesContainPattern:
+    answerArr = []
+    textPointer = 0
+    patternPointer = 0
+    # this will keep the index of where the first pattern ended in the text. So if we want to append it to the answerArr,
+    #   we'll have to minus it with the (length of the pattern - 1)
+    answerIndex = 0
+    while textPointer < len(text):
+        if text[textPointer] != pattern[patternPointer]:
+            patternPointer = 0              # start looping from beginning of pattern
             if text[textPointer] != pattern[patternPointer]:
-                patternPointer = 0              # start looping from beginning of pattern
+                textPointer += 1            # only increment textPointer if it doesn't match pattern at 0
+
+        else:                               # letters match so may have a chance it's the pattern
+            answerIndex = textPointer       # keep check of the pointer of pattern in text
+            if patternPointer == len(pattern) - 1:
+                answerIndex -= len(pattern) - 1
+                answerArr.append(answerIndex)       # found one pattern in the text!
+                patternPointer = 0                  # set back to 0 to check if there are more patterns in text
+                answerIndex = 0
+                # increment textPointer only if the current one doesn't equal to pattern at index 0
                 if text[textPointer] != pattern[patternPointer]:
-                    textPointer += 1            # only increment textPointer if it doesn't match pattern at 0
+                    textPointer += 1
+                continue    # need to be 'continue' statement because we want to keep checking the rest of the text
 
-            else:                               # letters match so may have a chance it's the pattern
-                answerIndex = textPointer       # keep check of the pointer of pattern in text
-                if patternPointer == len(pattern) - 1:
-                    answerIndex -= len(pattern) - 1
-                    answerArr.append(answerIndex)       # found one pattern in the text!
-                    patternPointer = 0                  # set back to 0 to check if there are more patterns in text
-                    answerIndex = 0
-                    # increment textPointer only if the current one doesn't equal to pattern at index 0
-                    if text[textPointer] != pattern[patternPointer]:
-                        textPointer += 1
-                    continue    # need to be 'continue' statement because we want to keep checking the rest of the text
+            textPointer += 1                # check on the next letters in both the text and pattern
+            patternPointer += 1
+    return answerArr
 
-                textPointer += 1                # check on the next letters in both the text and pattern
-                patternPointer += 1
-        return answerArr                        
+    # else:
+    #     return []
 
-    else:
-        return []
 
+# def covers_all_funcs(text, pattern, call):
+#     if call == 'contains':
+#         # use contains method
+#     if call == 'findIndex':
+#         # find index
+#     if call == 'findAllIndexes':
+#         # find all indexes
 
 
 

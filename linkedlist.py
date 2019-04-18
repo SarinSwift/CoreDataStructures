@@ -98,7 +98,7 @@ class LinkedList(object):
             self.prepend(item)       # inserting as the first item
         elif index == self.size:
             self.append(item)        # inserting at the end of list
-        else:
+        else: # 0 < index < self.size
             new_node = Node(item)
             # keep curr, prev nodes, and iterations count
             # change pointer of prev to point to the new node
@@ -174,17 +174,16 @@ class LinkedList(object):
         using the same node, or raise ValueError if old_item is not found.
         Best case running time: O(1) where we're replacing a node at self.head
         Worst case running time: O(n) where n is the index where the old item is """
-        if old_item in self.items():
-            curr = self.head                # keep check of current node
-            while curr is not None:
-                if curr.data == old_item:   # found the old item!
-                    curr.data = new_item    # set the old data to our new data
-                else:
-                    curr = curr.next        # traverse on the next node
+        curr = self.head                # keep check of current node
+        while curr is not None:
+            if curr.data == old_item:   # found the old item!
+                curr.data = new_item    # set the old data to our new data
+                return
+            else:
+                curr = curr.next        # traverse on the next node
 
-        else:
-            # if there's no old_item, then raise an error
-            raise ValueError('old_item not found: {}'.format(old_item))
+        # no old_item
+        raise ValueError('old_item not found: {}'.format(old_item))
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
