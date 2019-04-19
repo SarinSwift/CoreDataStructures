@@ -108,30 +108,33 @@ def find_all_indexes(text, pattern):
     # this will keep the index of where the first pattern ended in the text. So if we want to append it to the answerArr,
     #   we'll have to minus it with the (length of the pattern - 1)
     answerIndex = 0
+    
     while textPointer < len(text):
         if text[textPointer] != pattern[patternPointer]:
+
+            if patternPointer != 0:
+                # set back to 1 + the first letter that matched with pattern we found in the text
+                textPointer = textPointer - patternPointer + 1
+            else:
+                textPointer += 1
+
             patternPointer = 0              # start looping from beginning of pattern
-            if text[textPointer] != pattern[patternPointer]:
-                textPointer += 1            # only increment textPointer if it doesn't match pattern at 0
 
         else:                               # letters match so may have a chance it's the pattern
             answerIndex = textPointer       # keep check of the pointer of pattern in text
-            if patternPointer == len(pattern) - 1:
-                answerIndex -= len(pattern) - 1
-                answerArr.append(answerIndex)       # found one pattern in the text!
-                patternPointer = 0                  # set back to 0 to check if there are more patterns in text
-                answerIndex = 0
-                # increment textPointer only if the current one doesn't equal to pattern at index 0
-                if text[textPointer] != pattern[patternPointer]:
-                    textPointer += 1
-                continue    # need to be 'continue' statement because we want to keep checking the rest of the text
-
             textPointer += 1                # check on the next letters in both the text and pattern
             patternPointer += 1
-    return answerArr
 
-    # else:
-    #     return []
+            if patternPointer == len(pattern):
+                answerIndex -= len(pattern)-1
+                answerArr.append(answerIndex)       # found one pattern in the text!
+                answerIndex = 0
+                # increment textPointer to the second letter following from the beginning of the pattern found in text
+                textPointer = textPointer - patternPointer + 1
+                patternPointer = 0                  # set back to 0 to check if there are more patterns in text
+
+
+    return answerArr
 
 
 # def covers_all_funcs(text, pattern, call):
