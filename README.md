@@ -80,3 +80,36 @@ enqueue(): adding an element to a queue
 dequeue(): removing an element from a queue  
 is_empty(): checks if the queue is empty or not  
 size: how big the queue is  
+
+
+## Hash Tables
+**Looking upp data quickly without having to search through everything**  
+Hash Tables have 2 parts: An array, and a Hash function  
+Array: actually holds our data  
+Hash function: the way we decide where our data will live. 
+
+Hash tables create a mapping - relationship between 2 sets of data and are O(1) runtime to lookup, add, and delete from the hash table.  
+Hash tables are good to use when we quickly want to look up data in our collection.  
+They are not good if we want to keep track of ordered data.  
+
+**Good Hash Tables**
+1. Should be easy to compute- quick and efficient lookup time  
+2. Should avoid collision- The more collisions happen, the harder it is to come up with fast efficient algorithms to resolve them. 
+3. Should use all the input data and always return the same key for the same hash bucket per value  
+
+**Hash function**  
+Calculated by the hash-value % number of buckets  
+This equation will give us the index at which the key should live in.
+
+**Collisions**  
+Occurs when a hashing function generates the same index which comes from different keys.  
+Collision is almost always expected to happen when mapping out our keys and values.  
+Resolutions: Linear probing, and chaining  
+***Linear Probing***  
+Looking for the next empty bucket in the array. This is a kind of rehashing.  
+The function will loop back from the beginning of the table until it finds an available bucket for the element.   
+***Chaining***  
+Multiple elements can be stored at 1 key.  
+The downside is that it takes more time to look up values if there are many in the same bucket.  
+
+It all comes down to creating a good hash function. A 'good' hash function is easy to compute and avoids collision to allow look up times of O(1). But even with these good implementations, we will still run into collisions.
