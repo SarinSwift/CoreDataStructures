@@ -132,3 +132,21 @@ Everything in the first set and everything in the second set, except for the int
 * They can contain any data/object as long as it only occurs once in the set.
 * Can be pretty time efficient because under the hood, they are implemented by a hash table!
 
+
+## Trees
+**Non-Linear data structure**  
+
+**Terms:**  
+1. Root: Top most of a tree 
+2. Link/Edge: The reference of the parent node to the child node
+3. Child: Any node that can go up to a parent  
+4. Parent: Any node that has a reference to another node  
+5. Sibling: Group of nodes that have the same parent
+6. Internal/Branch node: nodes that have at least 1 child  
+7. External/Leaf node: node that has NO child nodes  
+
+**Classifications:** 
+1. Depth: The number of links it takes to reach that node from the root
+2. Height of a node: the maximum number of links from a node to it's furthest leaf.
+
+Every binary tree will have at most 2 subtrees (left subtree, and right subtree)
