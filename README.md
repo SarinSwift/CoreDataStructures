@@ -113,3 +113,40 @@ Multiple elements can be stored at 1 key.
 The downside is that it takes more time to look up values if there are many in the same bucket.  
 
 It all comes down to creating a good hash function. A 'good' hash function is easy to compute and avoids collision to allow look up times of O(1). But even with these good implementations, we will still run into collisions.
+
+
+## Sets
+**Unordered collections that contains no duplicates**  
+
+**Set Operations:**  
+1. Union  
+Two sets combined with each other. BUT, union sets can not have duplicates so if an item appears once in both sets, we just add the one.  
+2. Intersection  
+All items that exist in both sets.  
+3. Set difference  
+Returning a set of what it looks like, without containing any elements from the other set. So, the difference between X and Y would be X - Y.  
+4. Symmetric difference  
+Everything in the first set and everything in the second set, except for the intersection of both sets.  
+
+**Importance of Sets:**
+* They can contain any data/object as long as it only occurs once in the set.
+* Can be pretty time efficient because under the hood, they are implemented by a hash table!
+
+
+## Trees
+**Non-Linear data structure**  
+
+**Terms:**  
+1. Root: Top most of a tree 
+2. Link/Edge: The reference of the parent node to the child node
+3. Child: Any node that can go up to a parent  
+4. Parent: Any node that has a reference to another node  
+5. Sibling: Group of nodes that have the same parent
+6. Internal/Branch node: nodes that have at least 1 child  
+7. External/Leaf node: node that has NO child nodes  
+
+**Classifications:** 
+1. Depth: The number of links it takes to reach that node from the root
+2. Height of a node: the maximum number of links from a node to it's furthest leaf.
+
+Every binary tree will have at most 2 subtrees (left subtree, and right subtree)
