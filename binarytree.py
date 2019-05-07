@@ -237,7 +237,7 @@ class BinarySearchTree(object):
     def _traverse_in_order_recursive(self, node, visit):
         """Traverse this binary tree with recursive in-order traversal (DFS).
         Start at the given node and visit each node with the given function.
-        Running time: O(n) since we visit every node
+        Running time: O(n) since we visit every node, but mostly O(3n)
         Memory usage: O(logn) for the depth of the tree"""
         if node is not None:
             # Traverse left subtree, if it exists
@@ -421,8 +421,11 @@ class BinarySearchTree(object):
     def _traverse_level_order_iterative(self, start_node, visit):
         """Traverse this binary tree with iterative level-order traversal (BFS).
         Start at the given node and visit each node with the given function.
-        Run time: O(n) where n is the number of nodes in the entire tree.
-        Memory usage: O(w) where w is the width of the tree"""
+        Visits its neighbors
+        Run time: O(n) where n is the number of nodes in the entire tree. O(4n)
+        Memory usage: O(w) where w is the width of the tree
+                        O(2^h) worst case bottom most level of tree
+                        (n+1) / 2"""
         # Create queue to store nodes not yet traversed in level-order
         queue = LinkedQueue()
         # Enqueue given starting node
@@ -435,10 +438,12 @@ class BinarySearchTree(object):
             if node is not None:
                 # Visit this node's data with given function
                 visit(node.data)
-                # Enqueue this node's left child, if it exists
-                queue.enqueue(node.left)
-                # Enqueue this node's right child, if it exists
-                queue.enqueue(node.right)
+                # Enqueue this node's left child
+                if node.left != None:
+                    queue.enqueue(node.left)
+                # Enqueue this node's right child
+                if node.right != None:
+                    queue.enqueue(node.right)
 
 
 def test_binary_search_tree():
