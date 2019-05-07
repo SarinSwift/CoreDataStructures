@@ -10,7 +10,7 @@ Examples are: Arrays, LinkedLists
 Items don't have to be arranged in order  
 Examples are: Hashes(Dictionaries), Trees, and Graphs  
 
-   
+
 **Differences of arrays and linked lists:**  
 Memory management  
 ***Arrays:*** Static data structures -- all resources need to be allocated once they are created.
@@ -32,7 +32,7 @@ Adding and removing nodes is as simple as rearranging the pointers
  - Singly: Goes in one direction. Has one tracker that can traverse the list  
  - Doubly: 2 references contained within each node  
  - Circular: Does not end with nil. Has a node that acts as the tail(not head)  
- 
+
  **Linked Lists are good to use when:**  
    - You want to add or remove things quickly  
    - Not sure of size of the list  
@@ -41,7 +41,7 @@ Adding and removing nodes is as simple as rearranging the pointers
 
 ## Stacks  
 **Last In First Out**
-Insertion and deletion happend only from one end of the list 
+Insertion and deletion happend only from one end of the list
 
 **Implementations on Arrays**  
 Can be problematic because arrays require a set amount of space when initially created.  
@@ -86,7 +86,7 @@ size: how big the queue is
 **Looking upp data quickly without having to search through everything**  
 Hash Tables have 2 parts: An array, and a Hash function  
 Array: actually holds our data  
-Hash function: the way we decide where our data will live. 
+Hash function: the way we decide where our data will live.
 
 Hash tables create a mapping - relationship between 2 sets of data and are O(1) runtime to lookup, add, and delete from the hash table.  
 Hash tables are good to use when we quickly want to look up data in our collection.  
@@ -94,7 +94,7 @@ They are not good if we want to keep track of ordered data.
 
 **Good Hash Tables**
 1. Should be easy to compute- quick and efficient lookup time  
-2. Should avoid collision- The more collisions happen, the harder it is to come up with fast efficient algorithms to resolve them. 
+2. Should avoid collision- The more collisions happen, the harder it is to come up with fast efficient algorithms to resolve them.
 3. Should use all the input data and always return the same key for the same hash bucket per value  
 
 **Hash function**  
@@ -137,7 +137,7 @@ Everything in the first set and everything in the second set, except for the int
 **Non-Linear data structure**  
 
 **Terms:**  
-1. Root: Top most of a tree 
+1. Root: Top most of a tree
 2. Link/Edge: The reference of the parent node to the child node
 3. Child: Any node that can go up to a parent  
 4. Parent: Any node that has a reference to another node  
@@ -145,8 +145,19 @@ Everything in the first set and everything in the second set, except for the int
 6. Internal/Branch node: nodes that have at least 1 child  
 7. External/Leaf node: node that has NO child nodes  
 
-**Classifications:** 
+**Classifications:**
 1. Depth: The number of links it takes to reach that node from the root
 2. Height of a node: the maximum number of links from a node to it's furthest leaf.
 
 Every binary tree will have at most 2 subtrees (left subtree, and right subtree)
+
+**Traversals:**  
+1. DFS: checks all nodes from left most path from root to leaf   
+- In order traversal (left -> root -> right)   
+- Pre order traversal (root -> left -> right)   
+- Post order traversal (left -> right -> root)  
+DFS uses the Stack data structure
+
+2. BFS: searches nodes level by level   
+- Level order traversal  
+BFS uses the Queue data structure
