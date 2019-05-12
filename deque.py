@@ -1,10 +1,10 @@
 #!python
 
-from linkedlist import LinkedList
+from linkedlist_doubly import LinkedList
 
 class LinkedDeque(object):
 
-    # Setting our front as the head of the linked list
+    # Setting our front as the head of the doubly linked list
     def __init__(self, iterable=None):
         """Initialize this deque and push_back the given items, if any."""
         # Initialize a new linked list to store the items

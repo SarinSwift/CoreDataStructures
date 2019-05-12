@@ -56,7 +56,7 @@ class HashTable(object):
         # Collect all pairs of key-value entries in each of the buckets
         all_items = []
         for bucket in self.buckets:
-            all_items.extend(bucket.items())
+            all_items.extend(bucket.items())        # this is O(n) because we're calling append on every single item that we're extending
         return all_items
 
     def length(self):
@@ -102,7 +102,7 @@ class HashTable(object):
     def set(self, key, value):
         """Insert or update the given key with its associated value.
         Best case running time: O(1) if the key we're looking for is near the beginning of the linked list
-        Worst case running time: O(n) where n is the number of items in that specific bucket"""
+        Worst case running time: very rare O(n) where n is the number of items in that specific bucket"""
         # Find the bucket the given key belongs in
         index = self._bucket_index(key)
         bucket = self.buckets[index]
@@ -143,7 +143,7 @@ class HashTable(object):
         Should be called automatically when load factor exceeds a threshold
         such as 0.75 after an insertion (when set is called with a new key).
         Best and worst case running time: O(n) for inserting the old items inside the new bucket we created which is 2 times the size fo the original one
-        Best and worst case space usage: O(2n) because we're creating a new array which is double the size of the original one"""
+        Best and worst case space usage: O(n+b) -> O(b) if you resize"""
         # If unspecified, choose new size dynamically based on current size
         if new_size is None:
             new_size = len(self.buckets) * 2  # Double size
@@ -152,20 +152,25 @@ class HashTable(object):
             new_size = len(self.buckets) / 2  # Half size
 
         # Get a list to temporarily hold all current key-value entries. ex: [('V', 5), ('I', 1)]
-        old_items = self.items()
+        # O(n) runtime to append each item
+        old_items = self.items()    # local variable so it will die once function is done executing
 
         # Create a new list of new_size total empty linked list buckets
-        new_list_buckets = [LinkedList() for i in range(new_size)]
-        self.buckets = new_list_buckets     # refer to the new bigger bucket
+        # new_list_buckets = [LinkedList() for i in range(new_size)]
+        # self.buckets = new_list_buckets     # refer to the new bigger bucket
+        # # set back to 0 because we'll be setting those values again into our new bucket which is larger
+        # self.size = 0
 
-        # set back to 0 because we'll be setting those values again into our new bucket which is larger
-        self.size = 0
+        # Calling this self.init() will do the same code as if we're creating a new linked list
+        # reinitializing our buckets
+        # runtime: O(b), space complexity: O(b) for init() method
+        self.__init__(new_size)
 
         # Insert each key-value entry into the new list of buckets,
         # which will rehash them into a new bucket index based on the new size
+        # O(n) to loop thrugh all the entries
         for (key, value) in old_items:
             self.set(key, value)
-        print(self.size)
 
 
 def test_hash_table():
